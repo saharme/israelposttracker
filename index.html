@@ -1,14 +1,21 @@
 <html>
-	<body>
-		<div style="text-align: center;">
-			<img src="/images/IsraPost01.jpg">
-		</div>
-		
-		<div>
-			<form action = "/checkMailItemsStatus" method = "GET">
-				Mail Items File: <input type = "text" name = "mail_items_file" value="./resources/mailItems.csv">  <br>
-				<input type = "submit" value = "Submit">
-			</form>
-      </div>
-   </body>
+<body>
+<div style="text-align: center;">
+    <img src="/images/IsraPost01.jpg">
+</div>
+
+<div>
+    <form ref='uploadForm' id='uploadForm' action="/checkMailItemsStatus" method="post" encType="multipart/form-data">
+        <table>
+            <tr>
+                <td>Mail Items File:</td>
+                <td><input type="file" name="itemsFile"></td>
+            </tr>
+            <tr>
+                <td></td><td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
 </html>

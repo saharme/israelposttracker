@@ -1,4 +1,5 @@
 var express = require('express');
+var fileUpload = require('express-fileupload');
 var fs = require("fs");
 var request = require("request");
 var async = require("async");
@@ -6,6 +7,7 @@ var async = require("async");
 var app = express();
 
 app.use(express.static('public'));
+app.use(fileUpload());
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -15,20 +17,49 @@ app.get('/', function (req, res) {
 });
 
 app.get('/checkMailItemsStatus', function (req, res) {
-    var filePath = req.query.mail_items_file;
+    var filePath = req.query.itemsFile;
     console.log("File path is: " + filePath);
-    checkStatus(req, res, filePath);
+    var data = fs.readFileSync(filePath);
+    checkStatus(req, res, data);
+});
+
+app.post('/checkMailItemsStatus', function (req, res) {
+    if (!req.files){
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    var itemsFile = req.files.itemsFile;
+    var date = new Date().getTime();
+    var fileName = "mailItems_" + date + ".csv";
+    var filePath = './resources/' + fileName;
+
+    // Use the mv() method to place the file somewhere on your server
+    itemsFile.mv(filePath, function(err) {
+        if (err){
+            console.log("Failed to upload. File path is: " + filePath + "err: " + err);
+            return res.status(500).send(err);
+        }
+        console.log("File path is: " + filePath);
+        var data = fs.readFileSync(filePath);
+
+        fs.unlink(filePath, function() {
+            if (err) throw err;
+        });
+
+        return checkStatus(req, res, data);
+    });
+
 });
 
 
-function checkStatus(req, res, filePath) {
+function checkStatus(req, res, data) {
 
-    var data = fs.readFileSync(filePath);
     var dataAsString = data.toString();
     var itemsArr = dataAsString.split(",");
     console.log("Processing data file...");
 
-    checkMailItemsStatusByIsraelPost(itemsArr, res);
+    return checkMailItemsStatusByIsraelPost(itemsArr, res);
     //checkMailItemsStatusBy17Track(itemsArr, res);
 
 }
