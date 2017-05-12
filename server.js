@@ -7,7 +7,7 @@ var app = express();
 
 app.use(express.static('public'));
 
-//app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function (req, res) {
    console.log("Got a GET request for the homepage");
@@ -107,11 +107,13 @@ function checkMailItemsStatusByIsraelPost(itemsArr, res){
 	});
 }
 
-
-
-var server = app.listen(8081, function () {
-   var host = server.address().address
-   var port = server.address().port
-   
-   console.log("Server listening at http://%s:%s", host, port)
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
+
+//var server = app.listen(8081, function () {
+//   var host = server.address().address
+//   var port = server.address().port
+   
+//   console.log("Server listening at http://%s:%s", host, port)
+//});
