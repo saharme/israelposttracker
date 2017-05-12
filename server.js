@@ -115,4 +115,3 @@ function checkMailItemsStatusByIsraelPost(itemsArr, res){
    
 //   console.log("Server listening at http://%s:%s", host, port)
 //}
-)
