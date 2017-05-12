@@ -17,6 +17,11 @@ app.get('/', function (req, res) {
 app.get('/checkMailItemsStatus', function (req, res) {
     var filePath = req.query.mail_items_file;
     console.log("File path is: " + filePath);
+    checkStatus(req, res, filePath);
+});
+
+
+function checkStatus(req, res, filePath) {
 
     var data = fs.readFileSync(filePath);
     var dataAsString = data.toString();
@@ -25,7 +30,8 @@ app.get('/checkMailItemsStatus', function (req, res) {
 
     checkMailItemsStatusByIsraelPost(itemsArr, res);
     //checkMailItemsStatusBy17Track(itemsArr, res);
-});
+
+}
 
 function checkMailItemsStatusBy17Track(itemsArr, res) {
     var itemsUpdatedArr = [];
