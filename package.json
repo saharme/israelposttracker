@@ -1,0 +1,22 @@
+{
+  "name": "israelposttracker",
+  "version": "1.0.0",
+  "description": "Track you packages",
+  "main": "server.js",
+  "dependencies": {
+    "async": "^2.4.0",
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "fs": "0.0.1-security",
+    "multer": "^1.3.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test01",
+    "start": "node server.js"
+  },
+  "author": "Sahar Menashe",
+  "license": "ISC"
+}
