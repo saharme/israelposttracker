@@ -60,7 +60,7 @@ function checkMailItemsStatusBy17Track(itemsArr, res) {
             if (!mailItemDetails) {
                 mailItemDetails = "No information available"
             }
-            responseData += "<b>" + itemTitle + "</b>"
+            responseData += "<b>" + itemTitle + "</b>";
             responseData += "</br>";
             responseData += (mailItemDetails.z0 && mailItemDetails.z0.a ? mailItemDetails.z0.a : "N/A") + ": " + (mailItemDetails.z0 && mailItemDetails.z0.z ? mailItemDetails.z0.z : "N/A");
             responseData += "</br>";
@@ -88,7 +88,7 @@ function checkMailItemsStatusByIsraelPost(itemsArr, res) {
             followRedirect: true,
             maxRedirects: 10
         }, function (error, response, body) {
-            itemsUpdatedArr.push({itemTitle: itemTitle, itemDetails: body});
+            itemsUpdatedArr.push({itemTitle: itemTitle, itemCode:itemCode, itemDetails: body});
             callback();
         });
 
@@ -96,12 +96,14 @@ function checkMailItemsStatusByIsraelPost(itemsArr, res) {
         console.log("Async calls finished");
         itemsUpdatedArr.forEach(function (entry) {
             var itemTitle = entry.itemTitle;
+            var itemCode = entry.itemCode;
             var mailItemDetails = JSON.parse(entry.itemDetails);
 
             var content = formatData(mailItemDetails.itemcodeinfo);
 
-            responseData += "<b>" + itemTitle + "</b>"
-            responseData += "</br>";
+            responseData += "<b>Item Name:</b> " + itemTitle + "</br>";
+            responseData += "<b>Item Code:</b> " + itemCode + "</br>";
+            responseData += "<b>Item Details:</b> </br>";
             responseData += content;
             responseData += "</br></br>";
 
